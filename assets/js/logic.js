@@ -2,7 +2,7 @@
 // First strat quiz and get question functions logic is built
 // Variables needed to keep track of quiz state
 
-var currentQIndex=0.;
+var currentQIndex = 0.;
 // Allowed time for quiz is number of questions multiplied by 15 sec
 var time = questions.length * 15;
 var timerId;
@@ -35,7 +35,7 @@ function startQuiz() {
   questionsEl.removeAttribute("class");
   console.log(questionsEl)
   // start timer
- // timerId = setInterval(clockTick, 1000);
+  // timerId = setInterval(clockTick, 1000);
 
   // show starting time
   timerEl.textContent = time;
@@ -55,11 +55,12 @@ function getQuestion() {
   choicesEl.innerHTML = "";
 
   // loop over choices
-  // foreach() function list all the the question choices 
-  // from the "choices" object of each question  using
+  // foreach() method operate on choices object 
+  // Create a button for the each choice node and
+  // aqttach an event listner to each choice  (questionClick ) function
   //choiceNode.textContent
 
-  currentQ.choices.forEach(function(choice, i) {
+  currentQ.choices.forEach(function (choice, i) {
     // create new button for each choice
     var choiceNode = document.createElement("button");
     choiceNode.setAttribute("class", "choice");
@@ -67,11 +68,72 @@ function getQuestion() {
 
     choiceNode.textContent = i + 1 + ". " + choice;
 
-
+    // attach click event listener to each choice
+    choiceNode.onclick = questionClick;
     // display on the page
-     choicesEl.appendChild(choiceNode);
-     console.log(choiceNode)
+    choicesEl.appendChild(choiceNode);
+    console.log(choiceNode)
   });
+}
+ // function questionClick is used to check user answer
+ // display correct or wrong selection message and move to 
+ // the next question or end the quiz using quizEnd function
+ // or restart the quiz
+ // plays seprate sounds for reigt and wrong answers as well
+ 
+function questionClick() {
+  // check if user guessed wrong
+  if (this.value !== questions[currentQIndex].answer) {
+    // penalize time
+    time -= 15;
+
+    if (time < 0) {
+      time = 0;
+    }
+     // display new time on page
+     timerEl.textContent = time;
+
+     // play "wrong" sound effect
+     sfxWrong.play();
+ 
+     feedbackEl.textContent = "Wrong!";
+   } else {
+     // play "right" sound effect
+     sfxRight.play();
+ 
+     feedbackEl.textContent = "Correct!";
+   }
+ 
+   // flash right/wrong feedback on page for half a second
+   feedbackEl.setAttribute("class", "feedback");
+    setTimeout(function() {
+     feedbackEl.setAttribute("class", "feedback hide");
+   }, 1000);
+ 
+   // move to next question
+   currentQIndex++;
+ 
+   // check if we've run out of questions
+   if (currentQIndex === questions.length) {
+   //  quizEnd();
+   } else {
+     getQuestion();
+   }
+ }
+  
+
+// function clockTick is used to update timer
+// and subtract time if user answer is wrong
+function clockTick() {
+  // update time
+  time--;
+  timerEl.textContent = time;
+
+  // check if user ran out of time
+  if (time <= 0) {
+    time=0
+   // quizEnd();
+  }
 }
 
 
