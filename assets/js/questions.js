@@ -1,5 +1,5 @@
 // list of all questions, choices, and answers
-// tow more questions are added to the question array 
+// two new questions are added to the question array 
 var questions = [
   {
     title: "Commonly used data types DO NOT include:",
@@ -41,8 +41,8 @@ var questions = [
 
 {
   title: "Math.random() generates random numbers between:",
-  choices: ["1 and 10", "0 and 0.99", "0 and 1 (not inclusive"],
-  answer: " 0 and 1 (not inclusive"
-}
+  choices: ["1 and 10", "0 and 0.99", "0 and 1 (not inclusive)", "0 and .5"],
+  answer: "0 and 1 (not inclusive)"
+},
 ];
 
